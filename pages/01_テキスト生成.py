@@ -48,9 +48,9 @@ else:
         生成中，しばらくお待ちください．
         生成が終わると自動的に本棚に移動します．
     """):
-        st.info(title)
-        st.info(model_names[model_name])
-        st.info(temperature)
+        # st.info(title)
+        # st.info(model_names[model_name])
+        # st.info(temperature)
         # time.sleep(3)
         adapter.create(title, model_names[model_name], temperature=temperature)
     # submitをFalseに
