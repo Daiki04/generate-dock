@@ -1,0 +1,8 @@
+streamlit
+streamlit_authenticator
+dotenv
+openai
+deta
+extra_streamlit_components
+streamlit_extras
+Markdown
