@@ -3,13 +3,14 @@ import dotenv
 import os
 import json
 import sys
+import streamlit as st
 from db_connection import DBConnection
 
 # Load API key
 dotenv.load_dotenv()
 
 # API key
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 max_attempts = 10
 
