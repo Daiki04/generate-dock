@@ -51,7 +51,7 @@ else:
         # st.info(title)
         # st.info(model_names[model_name])
         # st.info(temperature)
-        # time.sleep(3)
+        time.sleep(10)
         adapter.create(title, model_names[model_name], temperature=temperature)
     # submitをFalseに
     st.session_state.submitted = False
