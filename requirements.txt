@@ -1,6 +1,6 @@
 streamlit
 streamlit_authenticator
-dotenv
+python-dotenv
 openai
 deta
 extra_streamlit_components
