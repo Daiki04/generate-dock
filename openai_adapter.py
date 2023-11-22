@@ -110,7 +110,6 @@ class OpenAIAdapter:
 
     def create(self, theme, model_name, temperature):
         db = DBConnection()
-        # st.info("生成中")
         for attempt in range(max_attempts):
             try:
                 response = self.create_chapter(theme, model_name, temperature)
@@ -124,7 +123,7 @@ class OpenAIAdapter:
                     print("Retrying...")
                     continue
             except Exception as e:
-                # st.warning(f"予期せぬエラーが発生しました: {e}")
+                st.error(f"予期せぬエラーが発生しました: {e}")
                 sys.exit(1)
         print(f"num_chapters: {len(response_json)}")
         db.add("books", theme, {"pages": len(response_json)})
