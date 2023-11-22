@@ -1,8 +1,8 @@
-streamlit
-streamlit_authenticator
-python-dotenv
-openai
-deta
-extra_streamlit_components
-streamlit_extras
-Markdown
+deta==1.2.0
+extra-streamlit-components==0.1.60
+Markdown==3.5.1
+openai==0.28.1
+python-dotenv==1.0.0
+streamlit==1.28.2
+streamlit-authenticator==0.2.3
+streamlit-extras==0.3.5
