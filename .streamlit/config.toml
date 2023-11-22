@@ -1,3 +1,4 @@
 [global]
 
+disableWidgetStateDuplicationWarning = true
 showWarningOnDirectExecution = false
