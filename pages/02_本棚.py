@@ -24,20 +24,29 @@ book_idx = {book_title: idx for idx, book_title in enumerate(book_titles)}
 book_pagenums = {b["key"]: int(b["pages"]) for b in book_data}
 
 # 本の一覧から選択時のon_change
+
+
 def on_change_book_title():
     st.session_state.page_index = 0
 
 # ページ選択時のon_change
+
+
 def on_change_page_num():
     st.session_state.page_index = st.session_state.page_num-1
 
 # 次へボタン押下時のon_click
+
+
 def on_click_next():
     st.session_state.page_index += 1
 
 # 前へボタン押下時のon_click
+
+
 def on_click_prev():
     st.session_state.page_index -= 1
+
 
 if "book_title_n" not in st.session_state and "page_index_n" not in st.session_state:
     st.session_state.book_title_n = None
@@ -90,7 +99,8 @@ if st.session_state.book_title is not None:
 
 # 内容を取得：メイン
 if st.session_state.book_title is not None and "page_index" in st.session_state:
-    md_txt = db.get("bookcontents", f"{st.session_state.book_title}_page{st.session_state.page_index+1}")["text"]
+    md_txt = db.get(
+        "bookcontents", f"{st.session_state.book_title}_page{st.session_state.page_index+1}")["text"]
     st.markdown(md_txt)
 
     # ページ遷移
