@@ -1,7 +1,10 @@
 import streamlit as st
 import os
 import common
+import warnings
 from db_connection import DBConnection
+
+warnings.simplefilter("ignore")
 
 # コンフィグ
 st.set_page_config(
@@ -36,11 +39,15 @@ def on_click_next():
 def on_click_prev():
     st.session_state.page_index -= 1
 
+if "book_title_n" not in st.session_state and "page_index_n" not in st.session_state:
+    st.session_state.book_title_n = None
+    st.session_state.page_index_n = None
+
 if st.session_state.book_title_n is not None and st.session_state.page_index_n is not None:
-        st.session_state.book_title = st.session_state.book_title_n
-        st.session_state.page_index = st.session_state.page_index_n
-        st.session_state.book_title_n = None
-        st.session_state.page_index_n = None
+    st.session_state.book_title = st.session_state.book_title_n
+    st.session_state.page_index = st.session_state.page_index_n
+    st.session_state.book_title_n = None
+    st.session_state.page_index_n = None
 
 # 本の一覧から選択: サイドバー
 if "book_title" not in st.session_state:

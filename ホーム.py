@@ -3,6 +3,9 @@
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
+import warnings
+
+warnings.simplefilter("ignore")
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=yaml.SafeLoader)
@@ -25,7 +28,8 @@ if st.session_state["authentication_status"]:
     st.session_state.page_index_n = None
     st.session_state.book_title_n = None
     dir_path = './contents/'
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["利用方法", "システム概要", "技術概要", "モデル概要", "アカウント"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        ["利用方法", "システム概要", "技術概要", "モデル概要", "アカウント"])
 
     with tab1:
         md_txt = open(dir_path + '説明.md', 'r', encoding='utf-8').read()

@@ -1,4 +1,5 @@
 import openai
+import warnings
 import dotenv
 import os
 import json
@@ -6,15 +7,20 @@ import sys
 import streamlit as st
 from db_connection import DBConnection
 
-# API key
-# openai.api_key = st.secrets["api_key"]
-# Load API key
-dotenv.load_dotenv()
+
+warnings.simplefilter("ignore")
 
 # API key
-openai.api_key = os.environ.get("OPENAI_API_KEY")
-print(openai.api_key)
+key = st.secrets["api_key"]
+openai.api_key = key
+# Load API key
+# dotenv.load_dotenv()
+
+# # API key
+# openai.api_key = os.environ.get("OPENAI_API_KEY")
+# print(openai.api_key)
 max_attempts = 10
+
 
 class OpenAIAdapter:
     """
@@ -125,27 +131,3 @@ class OpenAIAdapter:
         for page, key in enumerate(response_json.keys()):
             content = self.create_contens(theme, response_json, key, 2048)
             db.add("bookcontents", f"{theme}_page{page+1}", {"text": content})
-
-
-if __name__ == "__main__":
-    theme = "人工生命"
-    # themeフォルダがない場合はフォルダを作成，ある場合はフォルダ内のファイルを削除
-    if not os.path.exists(f"contents/{theme}"):
-        os.makedirs(f"contents/{theme}")
-    else:
-        files = os.listdir(f"contents/{theme}")
-        for file in files:
-            os.remove(f"contents/{theme}/{file}")
-
-    adapter = OpenAIAdapter()
-    response = adapter.create_chapter(theme)
-    response_json = json.loads(response)
-    print(response)
-    i = 0
-    for page, key in enumerate(response_json.keys()):
-        content = adapter.create_contens(theme, response_json, key, 2048)
-        # mdファイルに変換して保存
-        with open(f"contents/{theme}/page{key}.md", "w", encoding="utf-8") as f:
-            f.write(content)
-        if page == 2:
-            break

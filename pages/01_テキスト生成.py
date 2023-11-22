@@ -4,7 +4,10 @@ from streamlit_extras.switch_page_button import switch_page
 import time
 import common
 import markdown
+import warnings
 from openai_adapter import OpenAIAdapter
+
+warnings.simplefilter("ignore")
 
 # コンフィグ
 st.set_page_config(
