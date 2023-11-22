@@ -1,4 +1,5 @@
 import openai
+import dotenv
 import os
 import json
 import sys
@@ -6,10 +7,14 @@ import streamlit as st
 from db_connection import DBConnection
 
 # API key
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# openai.api_key = st.secrets["api_key"]
+# Load API key
+dotenv.load_dotenv()
 
+# API key
+openai.api_key = os.environ.get("OPENAI_API_KEY")
+print(openai.api_key)
 max_attempts = 10
-
 
 class OpenAIAdapter:
     """
@@ -20,7 +25,6 @@ class OpenAIAdapter:
         # system_prompt.txtからpromptを読み込む
         with open("system_prompt.txt", "r", encoding="utf-8") as f:
             self.system_prompt = f.read()
-        pass
 
     def _create_message(self, role: str, message: str):
         """
