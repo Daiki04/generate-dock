@@ -36,7 +36,6 @@ def submit():
     st.session_state.model_name = model_name
     st.session_state.temperature = temperature
 
-
 # 生成したい本のタイトルを入力
 # labelにはmarkdownを使用
 if "submitted" not in st.session_state or st.session_state.submitted == False:
@@ -50,6 +49,9 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
                                 min_value=0.0, max_value=1.0, value=0.5, step=0.01)
         submitted = st.form_submit_button("生成", on_click=submit)
 else:
+    if st.session_state.title == "":
+        st.session_state.submitted = False
+        st.stop()
     with st.form("title_form"):
         st.markdown("## 生成したい本のタイトルを入力してください")
         title = st.text_input(
