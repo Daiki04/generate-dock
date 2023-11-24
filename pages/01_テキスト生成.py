@@ -24,17 +24,10 @@ model_names = {"GPT-3.5": "gpt-3.5-turbo-1106", "GPT-4": "gpt-4-1106-preview"}
 
 st.session_state.page_index_n = None
 st.session_state.book_title_n = None
-# submit時の処理
 
-
-def submit():
-    if title == "":
-        st.error("タイトルを入力してください．")
-        return
-    st.session_state.submitted = True
-    st.session_state.title = title
-    st.session_state.model_name = model_name
-    st.session_state.temperature = temperature
+if "empty_error" in st.session_state and st.session_state.empty_error == True:
+    st.error("タイトルを入力してください")
+    st.session_state.empty_error = False
 
 # 生成したい本のタイトルを入力
 # labelにはmarkdownを使用
@@ -47,7 +40,19 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
             model_names.keys()), horizontal=True, index=0)
         temperature = st.slider("温度：温度が低いほど一貫性のある生成が期待でき，高いほど多様性のある生成が期待できる",
                                 min_value=0.0, max_value=1.0, value=0.5, step=0.01)
-        submitted = st.form_submit_button("生成", on_click=submit)
+        submitted = st.form_submit_button("生成")
+    
+    if submitted:
+        if title == "":
+            st.session_state.empty_error = True
+            st.rerun()
+        st.info(title)
+        st.session_state.submitted = True
+        st.session_state.title = title
+        st.session_state.model_name = model_name
+        st.session_state.temperature = temperature
+        st.rerun()
+
 else:
     if st.session_state.title == "":
         st.session_state.submitted = False
@@ -60,7 +65,7 @@ else:
         )), index=list(model_names.keys()).index(st.session_state.model_name), horizontal=True)
         temperature = st.slider("温度：温度が低いほど一貫性のある生成が期待でき，高いほど多様性のある生成が期待できる",
                                 min_value=0.0, max_value=1.0, value=st.session_state.temperature, step=0.01)
-        submitted = st.form_submit_button("生成", on_click=submit, disabled=True)
+        submitted = st.form_submit_button("生成", disabled=True)
     with st.spinner("""
         生成中，しばらくお待ちください．
         生成が終わると自動的に本棚に移動します．
