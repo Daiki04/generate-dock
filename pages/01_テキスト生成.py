@@ -70,8 +70,9 @@ else:
         生成中，しばらくお待ちください．
         生成が終わると自動的に本棚に移動します．
     """):
-        adapter.create(title, model_names[model_name], temperature=temperature)
-    st.session_state.submitted = False
+        if st.session_state.submitted:
+            st.session_state.submitted = False
+            adapter.create(title, model_names[model_name], temperature=temperature)
     # 本のタイトルとページを指定して本棚に移動
     st.session_state.page_index_n = 0
     st.session_state.book_title_n = title
