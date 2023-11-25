@@ -46,7 +46,7 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
         if title == "":
             st.session_state.empty_error = True
             st.rerun()
-        st.info(title)
+        # st.info(title)
         st.session_state.submitted = True
         st.session_state.title = title
         st.session_state.model_name = model_name
@@ -56,7 +56,7 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
 else:
     if st.session_state.title == "":
         st.session_state.submitted = False
-        st.stop()
+        st.rerun()
     with st.form("title_form"):
         st.markdown("## 生成したい本のタイトルを入力してください")
         title = st.text_input(
