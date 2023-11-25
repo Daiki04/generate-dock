@@ -1,7 +1,9 @@
 import extra_streamlit_components as stx
 import streamlit as st
 
-#ログインの確認
+# ログインチェック機能
+
+
 def check_login():
     value = stx.CookieManager().get(cookie='some_cookie_name')
     if value == None:

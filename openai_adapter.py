@@ -13,12 +13,8 @@ warnings.simplefilter("ignore")
 # API key
 key = st.secrets["api_key"]
 openai.api_key = key
-# Load API key
-# dotenv.load_dotenv()
 
-# # API key
-# openai.api_key = os.environ.get("OPENAI_API_KEY")
-# print(openai.api_key)
+# 生成の最大試行回数
 max_attempts = 10
 
 
@@ -35,6 +31,18 @@ class OpenAIAdapter:
     def _create_message(self, role: str, message: str):
         """
         OpenAIのAPIに渡すpromptを作成する
+
+        Parameters
+        ----------
+        role : str
+            メッセージの送信者
+        message : str
+            メッセージの内容
+
+        Returns
+        -------
+        dict
+            メッセージ
         """
         return {
             "role": role,
@@ -42,7 +50,25 @@ class OpenAIAdapter:
         }
 
     def create_chapter(self, topic: str, model_name: str, temperature: float, max_tokens: int = 2048) -> str:
-        # 目次を生成
+        '''
+        目次を作成する
+
+        Parameters
+        ----------
+        topic : str
+            教材のタイトル
+        model_name : str
+            使用するモデルの名前
+        temperature : float
+            温度
+        max_tokens : int, optional
+            生成するトークンの最大数, by default 2048
+
+        Returns
+        -------
+        str
+            目次
+        '''
 
         template = f"""
         あなたは先生で，全てJSON形式で出力します．
@@ -75,6 +101,26 @@ class OpenAIAdapter:
         return topics
 
     def create_contens(self, topic: str, dict_chapters: [str, str], chapter: int, max_tokens: int) -> str:
+        '''
+        教材の内容を作成する
+
+        Parameters
+        ----------
+        topic : str
+            教材のタイトル
+        dict_chapters : [str, str]
+            教材の目次
+        chapter : int
+            担当する章
+        max_tokens : int
+            生成するトークンの最大数
+
+        Returns
+        -------
+        str
+            教材の内容
+        '''
+
         template = f"""
         「{topic}」というタイトルで教材を作成している．
         教材の目次は以下の通りである．
@@ -109,6 +155,19 @@ class OpenAIAdapter:
         return contents
 
     def create(self, theme, model_name, temperature):
+        """
+        教材を作成する
+
+        Parameters
+        ----------
+        theme : str
+            教材のタイトル
+        model_name : str
+            使用するモデルの名前
+        temperature : float
+            温度
+        """
+
         db = DBConnection()
         for attempt in range(max_attempts):
             try:

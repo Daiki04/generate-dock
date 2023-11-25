@@ -1,4 +1,4 @@
-# main.py
+# ホーム画面
 
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -7,9 +7,11 @@ import warnings
 
 warnings.simplefilter("ignore")
 
+# ユーザー情報の読み込み
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=yaml.SafeLoader)
 
+# 認証
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -18,9 +20,14 @@ authenticator = stauth.Authenticate(
     config['preauthorized'],
 )
 
+
 st.title("ものしり本棚")
 st.write('ものしり本棚は知りたいことを入力すると，自動的に学習用テキストが生成されるサービスです')
+
+### ログイン処理 ###
 name, authentication_status, username = authenticator.login('Login', 'main')
+
+### ログイン成功時 ###
 if 'authentication_status' not in st.session_state:
     st.session_state['authentication_status'] = None
 
@@ -49,6 +56,8 @@ if st.session_state["authentication_status"]:
         st.write('アカウント名：' + username)
 
         authenticator.logout('Logout', 'main')
+
+### ログイン失敗時 ###
 elif st.session_state["authentication_status"] is False:
     st.error('ユーザ名またはパスワードが間違っています')
 elif st.session_state["authentication_status"] is None:

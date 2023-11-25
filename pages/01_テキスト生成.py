@@ -1,35 +1,36 @@
 import streamlit as st
-import os
 from streamlit_extras.switch_page_button import switch_page
-import time
 import common
-import markdown
 import warnings
 from openai_adapter import OpenAIAdapter
 
 warnings.simplefilter("ignore")
 
-# コンフィグ
+# ページコンフィグ
 st.set_page_config(
     page_title="Generate Text",
     page_icon=":robot_face:",
     layout="wide"
 )
 
+# ログインチェック
 common.check_login()
 
+# OpenAI Adapter
 adapter = OpenAIAdapter()
 
+# モデルの名前
 model_names = {"GPT-3.5": "gpt-3.5-turbo-1106", "GPT-4": "gpt-4-1106-preview"}
 
 st.session_state.page_index_n = None
 st.session_state.book_title_n = None
 
+# タイトルが空の場合のエラー
 if "empty_error" in st.session_state and st.session_state.empty_error == True:
     st.error("タイトルを入力してください")
     st.session_state.empty_error = False
 
-# 生成したい本のタイトルを入力
+### 生成したい本のタイトルを入力 ###
 # labelにはmarkdownを使用
 if "submitted" not in st.session_state or st.session_state.submitted == False:
     with st.form("title_form"):
@@ -41,7 +42,7 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
         temperature = st.slider("温度：温度が低いほど一貫性のある生成が期待でき，高いほど多様性のある生成が期待できる",
                                 min_value=0.0, max_value=1.0, value=0.5, step=0.01)
         submitted = st.form_submit_button("生成")
-    
+
     if submitted:
         if title == "":
             st.session_state.empty_error = True
@@ -53,6 +54,7 @@ if "submitted" not in st.session_state or st.session_state.submitted == False:
         st.session_state.temperature = temperature
         st.rerun()
 
+### 生成中待機 ###
 else:
     if st.session_state.title == "":
         st.session_state.submitted = False
@@ -72,8 +74,10 @@ else:
     """):
         if st.session_state.submitted:
             st.session_state.submitted = False
-            adapter.create(title, model_names[model_name], temperature=temperature)
-    # 本のタイトルとページを指定して本棚に移動
+            adapter.create(
+                title, model_names[model_name], temperature=temperature)
+
+    ### 生成完了後，本棚に移動 ###
     st.session_state.page_index_n = 0
     st.session_state.book_title_n = title
     # balloonを表示

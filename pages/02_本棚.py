@@ -6,15 +6,17 @@ from db_connection import DBConnection
 
 warnings.simplefilter("ignore")
 
-# コンフィグ
+# ページコンフィグ
 st.set_page_config(
     page_title="Books",
     page_icon="📚",
     layout="wide",
 )
 
+# ログインチェック
 common.check_login()
 
+# DB接続
 db = DBConnection()
 
 # 本のタイトルを取得
@@ -23,7 +25,7 @@ book_titles = [b["key"] for b in book_data]
 book_idx = {book_title: idx for idx, book_title in enumerate(book_titles)}
 book_pagenums = {b["key"]: int(b["pages"]) for b in book_data}
 
-# 本の一覧から選択時のon_change
+# 本のタイトル選択時のon_change
 
 
 def on_change_book_title():
@@ -58,7 +60,7 @@ if st.session_state.book_title_n is not None and st.session_state.page_index_n i
     st.session_state.book_title_n = None
     st.session_state.page_index_n = None
 
-# 本の一覧から選択: サイドバー
+### 本の一覧から選択: サイドバー ###
 if "book_title" not in st.session_state:
     st.sidebar.selectbox(
         "本のタイトル",
@@ -78,11 +80,7 @@ else:
         on_change=on_change_book_title
     )
 
-# st.info(st.session_state.book_title)
-# if st.session_state.book_title is not None:
-#     st.info(book_idx[st.session_state.book_title])
-
-# ページ選択: サイドバー
+### ページ選択: サイドバー ###
 if st.session_state.book_title is not None:
     st.sidebar.selectbox(
         "ページ",
@@ -93,11 +91,7 @@ if st.session_state.book_title is not None:
         on_change=on_change_page_num
     )
 
-# if "page_num" in st.session_state:
-#     st.info(st.session_state.page_num)
-#     st.info(st.session_state.page_index)
-
-# 内容を取得：メイン
+### 内容を取得・表示：メイン ###
 if st.session_state.book_title is not None and "page_index" in st.session_state:
     md_txt = db.get(
         "bookcontents", f"{st.session_state.book_title}_page{st.session_state.page_index+1}")["text"]
@@ -113,7 +107,7 @@ if st.session_state.book_title is not None and "page_index" in st.session_state:
 elif st.session_state.book_title is None:
     st.info("サイドバーから本を選択してください．")
 
-# balloon
+# 生成成功時はballoonを表示
 if "balloon" in st.session_state and st.session_state.balloon == True:
     st.balloons()
     st.session_state.balloon = False
