@@ -1,0 +1,21 @@
+・使用するにはDetaとOpenAIのAPIキーが必要です．
+
+Deta: https://deta.space/?horizon=ykr4Vc6VFg
+DetaのAPIキーはsecrets.toml内のdata_keyに記載する必要があります．
+使用する際は，secrets.tomlに以下のように記載すること
+deta_key = "{YOUR DETA KEY}"
+
+OpenAI: https://openai.com/blog/openai-api
+OpenAIのAPIキーはsecrets.toml内のapi_keyに記載する必要があります．
+使用する際は，secrets.tomlに以下のように記載すること
+api_key = "{YOUR OpenAI API KEY}"
+
+・必要なライブラリはrequirements.txtに記載しています．
+
+・アプリの実行方法は以下の通りです．
+```
+$ streamlit run app.py
+```
+
+・アプリの利用方法はREADME.mdを参照してください．
+

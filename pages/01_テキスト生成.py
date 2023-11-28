@@ -14,7 +14,8 @@ st.set_page_config(
 )
 
 # ログインチェック
-common.check_login()
+# common.check_login()
+st.warning('OpenAI APIは課金制のため，生成は1人1, 2回程度に抑えて頂けると幸いです')
 
 # OpenAI Adapter
 adapter = OpenAIAdapter()
