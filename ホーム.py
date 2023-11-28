@@ -24,7 +24,7 @@ warnings.simplefilter("ignore")
 st.title("ものしり本棚")
 st.write('ものしり本棚は知りたいことを入力すると，自動的に学習用テキストが生成されるサービスです')
 st.warning('OpenAI APIは課金制のため，生成は1人1, 2回程度に抑えて頂けると幸いです')
-st.info('多用する場合はhttps://github.com/Daiki04/generate-dockからソースコードをダウンロードして，API Keyを設定してくローカルで実行してください')
+st.info('多用する場合は https://github.com/Daiki04/generate-dock からソースコードをダウンロードして，API Keyを設定してくローカルで実行してください')
 
 ### ログイン処理 ###
 # name, authentication_status, username = authenticator.login('Login', 'main')
