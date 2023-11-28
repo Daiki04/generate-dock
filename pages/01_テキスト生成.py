@@ -16,6 +16,7 @@ st.set_page_config(
 # ログインチェック
 # common.check_login()
 st.warning('OpenAI APIは課金制のため，生成は1人1, 2回程度に抑えて頂けると幸いです')
+st.info('多用する場合は https://github.com/Daiki04/generate-dock からソースコードをダウンロードして，API Keyを設定してくローカルで実行してください')
 
 # OpenAI Adapter
 adapter = OpenAIAdapter()
